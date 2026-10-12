@@ -4,35 +4,112 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>小提琴聆听计划</title>
+<meta name="theme-color" content="#f4f0e8">
+<meta name="description" content="每天一个具体的聆听观察，按自己的速度认识小提琴演奏家。">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
-:root{--bg:#f5f1e8;--paper:#fffdf8;--ink:#24211d;--muted:#756f66;--line:#ded6c9;--accent:#765c46}
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif SC","Songti SC",Georgia,serif;line-height:1.7}
-header{padding:48px 20px 26px;text-align:center;border-bottom:1px solid var(--line);background:var(--paper)}
-header h1{margin:0;font-size:clamp(28px,5vw,46px);font-weight:600;letter-spacing:.08em}
-header p{color:var(--muted);margin:8px 0 0}
-.wrap{max-width:980px;margin:auto;padding:28px 18px 70px}
-.weeknav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
-button{font:inherit;border:1px solid var(--line);background:var(--paper);padding:9px 14px;border-radius:999px;cursor:pointer;color:var(--ink)}
-button.active{background:var(--ink);color:white;border-color:var(--ink)}
-.hero,.card{background:var(--paper);border:1px solid var(--line);border-radius:18px}
-.hero{padding:28px;margin-bottom:18px}.hero small,.eyebrow{color:var(--accent);font-weight:700;letter-spacing:.08em}
-.hero h2{font-size:30px;margin:5px 0}.hero p{margin:4px 0;color:var(--muted)}
-.days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0}
-.daybtn{border-radius:12px}.daybtn.today{outline:3px solid #cdbda9}
-.card{padding:26px}.card h3{font-size:25px;margin:3px 0 6px}.piece{font-size:18px;font-weight:700;margin:12px 0 2px}
+:root{
+  --bg:#f4f0e8; --paper:rgba(255,253,248,.91); --ink:#39352f;
+  --muted:#7e776e; --line:#ddd5ca; --rose:#caa8a5; --sage:#aab9a3;
+  --blue:#aabac7; --lav:#b8adc4; --gold:#c8ad79; --accent:#826c65;
+  --shadow:0 16px 40px rgba(83,70,58,.08)
+}
+*{box-sizing:border-box}
+body{
+  margin:0;color:var(--ink);line-height:1.75;
+  font-family:"Noto Serif SC","Songti SC","STSong",Georgia,serif;
+  background:
+    radial-gradient(circle at 8% 8%,rgba(202,168,165,.22),transparent 25%),
+    radial-gradient(circle at 92% 15%,rgba(170,185,163,.22),transparent 25%),
+    linear-gradient(180deg,#f8f5ef 0%,#f1ede5 100%);
+  min-height:100vh
+}
+header{
+  position:relative;overflow:hidden;padding:58px 20px 40px;text-align:center;
+  border-bottom:1px solid rgba(221,213,202,.8);
+  background:rgba(255,253,248,.72);backdrop-filter:blur(8px)
+}
+header:before{
+  content:"𝄞";position:absolute;left:7%;top:-35px;font-family:Georgia,serif;
+  font-size:180px;color:rgba(184,173,196,.13);transform:rotate(-8deg)
+}
+header:after{
+  content:"♪  ♫  ♩";position:absolute;right:7%;bottom:8px;
+  font-size:34px;letter-spacing:16px;color:rgba(130,108,101,.16)
+}
+.music-line{font-family:Georgia,serif;color:var(--gold);font-size:18px;letter-spacing:.35em;margin-bottom:7px}
+header h1{position:relative;margin:0;font-size:clamp(30px,5vw,48px);font-weight:600;letter-spacing:.1em}
+header p{position:relative;color:var(--muted);margin:10px 0 0;font-size:15px}
+.wrap{max-width:1020px;margin:auto;padding:30px 18px 80px}
+.progressbox{margin:0 0 22px;padding:14px 18px;background:rgba(255,255,255,.45);border:1px solid rgba(221,213,202,.75);border-radius:16px}
+.progressrow{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:13px;margin-bottom:8px}
+.progressbar{height:7px;background:#e9e3da;border-radius:99px;overflow:hidden}
+.progressfill{height:100%;width:0;background:linear-gradient(90deg,var(--sage),var(--rose),var(--lav));border-radius:99px;transition:width .35s}
+.weeknav{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:22px}
+button{
+  font:inherit;border:1px solid var(--line);background:rgba(255,253,248,.78);
+  padding:9px 14px;border-radius:999px;cursor:pointer;color:var(--ink);
+  transition:.2s ease
+}
+button:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(83,70,58,.08)}
+button.active{background:#756861;color:#fff;border-color:#756861}
+.hero,.card{
+  background:var(--paper);border:1px solid rgba(221,213,202,.9);
+  border-radius:24px;box-shadow:var(--shadow)
+}
+.hero{position:relative;overflow:hidden;padding:30px 32px;margin-bottom:18px}
+.hero:after{content:"♬";position:absolute;right:28px;top:12px;font:72px Georgia,serif;color:rgba(202,168,165,.13)}
+.hero small,.eyebrow{color:var(--accent);font-weight:700;letter-spacing:.1em}
+.hero h2{font-size:32px;margin:4px 0}.hero p{max-width:760px;margin:5px 0;color:var(--muted)}
+.days{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:18px 0}
+.daybtn{border-radius:14px;padding:11px 6px;background:rgba(255,253,248,.78)}
+.daybtn:nth-child(1){border-bottom:3px solid var(--rose)}
+.daybtn:nth-child(2){border-bottom:3px solid var(--sage)}
+.daybtn:nth-child(3){border-bottom:3px solid var(--blue)}
+.daybtn:nth-child(4){border-bottom:3px solid var(--lav)}
+.daybtn:nth-child(5){border-bottom:3px solid var(--gold)}
+.card{padding:30px 32px;position:relative}
+.card:before{content:"";display:block;width:54px;height:3px;border-radius:10px;background:linear-gradient(90deg,var(--rose),var(--gold));margin-bottom:18px}
+.card h3{font-size:27px;margin:4px 0 8px;line-height:1.35}
+.piece{font-size:18px;font-weight:700;margin:18px 0 2px}
+.piece:before{content:"♫";color:var(--rose);margin-right:9px}
 .meta{color:var(--muted);margin:0 0 18px}
-.observe{margin:18px 0;padding-left:22px}.observe li{margin:9px 0}
-.practice{border-top:1px solid var(--line);margin-top:22px;padding-top:18px}
-.quote{margin:22px 0 0;padding:14px 18px;border-left:4px solid var(--accent);background:#f8f4ec;font-weight:700}
-.search{display:inline-block;margin-top:15px;color:var(--accent)}
-footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
-@media(max-width:650px){.days{grid-template-columns:repeat(5,1fr)}.daybtn{padding:9px 4px;font-size:13px}.hero,.card{padding:20px}}
+.observe{margin:18px 0;padding-left:24px}
+.observe li{margin:10px 0;padding-left:4px}
+.practice{margin-top:24px;padding:18px 20px;border:1px solid #e5ddd2;border-radius:16px;background:linear-gradient(135deg,rgba(170,185,163,.12),rgba(255,253,248,.7))}
+.practice strong:before{content:"♩";color:var(--sage);font-size:19px;margin-right:8px}
+.quote{margin:22px 0 0;padding:16px 20px;border-left:4px solid var(--rose);border-radius:0 12px 12px 0;background:rgba(202,168,165,.10);font-weight:700}
+.search{display:inline-block;margin-top:17px;color:#77635e;text-decoration:none;border-bottom:1px solid #cdbab5}
+.actionrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.primary{background:#756861!important;color:white!important;border-color:#756861!important}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:34px}
+footer:before{content:"𝄞";display:block;font:26px Georgia,serif;color:rgba(130,108,101,.35);margin-bottom:4px}
+@media(max-width:650px){
+ header{padding:44px 18px 30px}.wrap{padding:22px 12px 60px}
+ .days{grid-template-columns:repeat(5,1fr);gap:5px}.daybtn{padding:9px 2px;font-size:12px}
+ .hero,.card{padding:22px 20px;border-radius:20px}.hero h2{font-size:27px}
+ .card h3{font-size:23px}.weeknav{gap:6px}.weeknav button{font-size:12px;padding:7px 10px}
+}
+
+.statusbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px;font-size:13px;color:var(--muted)}
+.statusbar button{padding:5px 11px;font-size:12px}
+.notes{margin-top:20px}.notes textarea{display:block;width:100%;min-height:86px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fffdf8;color:var(--ink);font:inherit;resize:vertical}
+.notice{padding:10px 14px;margin-bottom:16px;border:1px solid var(--line);border-radius:12px;background:#fffdf8}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
-<header><h1>小提琴聆听计划</h1><p>每周一位演奏家 · 每天一个可以真正听见的重点</p></header>
+<header><div class="music-line">♪ ♩ ♫</div><h1>小提琴聆听计划</h1><p>每周一位演奏家 · 每天一个可以真正听见的重点</p></header>
 <main class="wrap">
-  <nav class="weeknav" id="weeknav"></nav>
+  <section class="progressbox">
+  <div class="progressrow"><span>聆听旅程</span><span id="progressText"></span></div>
+  <div class="progressbar"><div class="progressfill" id="progressFill"></div></div>
+</section>
+<div class="statusbar"><span id="contentStatus">正在读取课程…</span><button id="refreshContent" type="button">检查新课程</button></div>
+<div id="updateNotice" class="notice" hidden></div>
+<nav class="weeknav" id="weeknav"></nav>
   <section class="hero">
     <small id="weekLabel"></small><h2 id="artist"></h2><p id="intro"></p>
   </section>
@@ -46,61 +123,13 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
     <section class="practice"><strong>30秒练琴实验</strong><div id="practice"></div></section>
     <div class="quote" id="quote"></div>
     <a class="search" id="search" target="_blank" rel="noopener">在 YouTube 搜索这个版本 →</a>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px">
-      <button onclick="completeDay()" style="background:var(--ink);color:white">完成今天的学习 →</button>
-      <button onclick="resetProgress()">从 Hilary Hahn · Day 1 重新开始</button>
+    <section class="notes"><label for="notesInput"><strong>我的聆听笔记（仅保存在这台设备）</strong></label><textarea id="notesInput" placeholder="今天听到了什么？最喜欢哪一句？"></textarea></section>
+<div class="actionrow">
+      <button class="primary" onclick="completeDay()">完成今天的学习 →</button>
+      <button onclick="resetProgress()">从第一课重新开始</button>
     </div>
   </article>
   <footer>不比较神童的学习速度。只比较：我今天比昨天多听见了什么？</footer>
 </main>
-<script>
-const weeks=[{artist:"Hilary Hahn",intro:"声音清晰、稳定，结构感很强。第一周先学习怎样真正听见音色、长弓、换把、乐句和节奏，而不是追求演奏速度。",days:[
-["先认识她的声音","Bach：E大调第三无伴奏组曲 BWV 1006，Preludio","建议听开头约2–3分钟",["每一个音是否都很清楚？","到了E弦高音区，声音是尖、薄，还是仍然有中心？","快速音符很多时，右手看起来是否仍然安静？"],"用自己的音阶选一根弦，慢慢拉4个音。每个音开始前先听见自己想要的声音，再落弓。","今天不问她拉得有多快，只问：她的声音为什么这么清楚？"],
-["一根长弓怎样一直活着？","Bach：G小调第一无伴奏奏鸣曲 BWV 1001，Siciliana","完整听一遍或听前3分钟",["长音从头到尾是否完全一样？","弓走得慢时，声音有没有失去支撑？","换弓处能不能听见明显的接缝？"],"空弦拉一个慢长弓。不要只想着把弓走完；试着让声音有开始、发展和结束。","长弓不是把声音拖长，而是让一句话在一弓里继续前进。"],
-["换把：看得见，还是听得见？","Mendelssohn：E小调小提琴协奏曲 第一乐章","独奏开头约0:00–3:30",["看她什么时候换把，再闭眼听同一段。","哪些换把看得见，却几乎听不见？","到达高音以后，音准和声音是否立刻稳定？"],"从自己的曲子找一个换把：先只练出发音和目标音，再连接，中间不要急着滑过去。","换把的目标不是藏住动作，而是让音乐不被动作打断。"],
-["乐句在哪里呼吸？","Mozart：A大调第五小提琴协奏曲 K.219 第一乐章","找到独奏进入后的约3–4分钟",["哪些地方像逗号，哪些地方像句号？","换弓的位置和音乐呼吸的位置总是一样吗？","一句走向重点时，她怎样改变弓速或力度？"],"选自己曲子里的两小节，先用嘴唱一句，再拿琴拉；检查呼吸位置是否一样。","弓法写在谱上，乐句却需要自己听出来。"],
-["节奏稳定，但不是机械","Bach：D小调第二无伴奏组曲 BWV 1004，Gigue","完整听一遍",["快速音符中，拍子是否一直清楚？","换弦很多时，脉搏有没有被动作带乱？","哪些音稍有方向感，却没有破坏基本节拍？"],"先拍出稳定脉搏，再拉自己的一小段快速乐句；任何技术困难都不能让基本拍子消失。","稳定的节奏不是像机器，而是在稳定脉搏上让音乐跳舞。"]
-]},{artist:"Maxim Vengerov",intro:"声音饱满、色彩变化强，右手控制尤其值得观察。重点不是模仿他的力量感，而是听弓速、接触点、右手弹性和换把怎样服务于表达。",days:[
-["厚的声音，不等于压弓","Tchaikovsky：D大调小提琴协奏曲 Op.35 第一乐章","建议听第一段独奏进入后的约3分钟",["声音很厚时，音头有没有被压扁？","高音区仍然饱满时，弓更靠近琴桥了吗？","渐强时，他只是在增加压力，还是同时改变弓速和接触点？"],"在A弦拉一个长音：先试着靠加压力变响；再减少压力，用弓速和接触点调整声音。比较哪一种更有核心。","厚的声音，不等于用力压弓。"],
-["弓根附近，右手还能不能活动？","Brahms：D大调小提琴协奏曲 Op.77 第三乐章","建议听开头约3分钟",["到弓根时，小指有没有锁直？","手指、手腕和前臂是否一起调整？","强奏和重音很多时，右肩是否仍然没有明显抬起？"],"空弦慢慢拉到弓根并停住，检查小指是否还能轻轻弯伸；再做四个短音，不改变这种弹性。","弓根需要支撑，但支撑不等于固定。"],
-["换把可以成为说话的语气","Tchaikovsky：D大调小提琴协奏曲 Op.35 第二乐章 Canzonetta","建议听开头约3分钟",["哪些换把几乎隐藏起来？","哪些地方故意保留了一点滑音？","滑音出现时，是为了到达音，还是为了连接两句话？"],"同一个慢换把拉三次：完全隐藏、轻微滑音、明显滑音。比较哪一种最符合这句话的情绪。","滑音不是换把留下的痕迹；有时它本身就是语言。"],
-["高音为什么亮，却不尖？","Butterfly Lovers《梁祝》小提琴协奏曲｜Maxim Vengerov","选择抒情主题进入高音区的一段，约3分钟",["高音上去以后，声音有没有突然变薄？","弓在高音区的接触点和速度怎样变化？","揉弦是让声音更紧张，还是仍然保持歌唱？","同一句下行回来时，音色有没有跟着情绪改变？"],"在E弦选三个逐渐升高的音。不要因为音高变高就加压；试着用稳定接触点、连续弓速保持圆润的声音。","真正漂亮的高音不是更尖，而是在更高的位置仍然会唱歌。"],
-["舞台表达：强烈，但不是每一句都强烈","Sarasate：Zigeunerweisen Op.20｜Maxim Vengerov","听慢板进入快速段落前后的约4分钟",["慢板时，他怎样制造等待和方向？","进入炫技段落以后，是否每个音都同样重要？","身体动作什么时候明显增加？它是否对应音乐高潮？","回想本周：Vengerov最容易辨认的声音特征是什么？"],"从自己的曲子选四小节，只允许一个地方成为真正的高潮。其他地方主动留出空间，再听高潮是否更明显。","表达强烈，不等于从头到尾都用最大强度。"]
-]},{artist:"Itzhak Perlman",intro:"声音温暖、歌唱性强。适合学习长线条、短音弹性、揉弦、音准中心与自然的乐句。",days:[
-["长音为什么一直在前进？","Beethoven：D大调小提琴协奏曲 第一乐章","第一段独奏进入后约3分钟",["长音是否一开始就到最大音量？","换弓时旋律有没有断？","揉弦是否从头到尾完全一样？"],"同一个长音拉两次：一次从头到尾一样；一次让声音逐渐打开再收回来。","美的长音不是维持住，而是从开始到结束一直在前进。"],
-["短音清楚，但不要僵硬","Saint-Saëns：Introduction et Rondo Capriccioso Op.28","快速 Rondo 段落约2–3分钟",["短音用了多少弓？","前臂、手腕和手指怎样分工？","清楚的音头有没有变成硬的声音？"],"空弦连续拉8个短音，逐渐减少弓量，同时保持右手松动。","短音的清楚来自准确、快速的弓弦接触，不来自整只右手用力。"],
-["揉弦是在改变颜色","John Williams：Schindler's List Theme","主题开始后的约3分钟",["每个长音是否立刻开始揉弦？","揉弦速度和宽度是否一直相同？","换把之后，声音怎样重新连接起来？"],"一个长音依次尝试：不揉弦、立即揉弦、音准稳定后逐渐加入揉弦。","揉弦不是统一的美化效果，而是一种音色选择。"],
-["快速段落里的音准中心","Paganini：Caprice No.24","主题与前几个变奏",["先记住主题的重要音。","快速音群中哪些是落点？","双音与和弦出现时，旋律音是否仍突出？"],"先找骨架音，再慢慢加入经过音，最后恢复速度但保持落点稳定。","快并不只是手指移动得快；耳朵必须提前知道下一个重要音在哪里。"],
-["乐句怎样像人说话？","Mendelssohn：E小调小提琴协奏曲 第一乐章","独奏开头约4分钟",["哪些音是句子的重心？","一句结束前怎样收束？","乐团回应以后，小提琴怎样重新接过音乐？"],"选两句相连旋律：先平均演奏，再找出每句最重要的一个音并重新演奏。","歌唱性不只是声音温暖，而是每个音都知道自己从哪里来、要到哪里去。"]
-]},{artist:"Augustin Hadelich",intro:"技术精确，却很少用夸张动作。适合观察声音核心、右手效率、换把与音乐表达。",days:[
-["弱奏不是把声音拿走","Beethoven：D大调小提琴协奏曲 第二乐章","建议听开头约3分钟",["很轻时，声音是否仍有清楚的中心？","弱奏时弓速、弓量和接触点发生了什么变化？","闭眼听：换弓有没有明显的接缝？"],"A弦拉三个慢长音：先单纯减少力量；再保持稳定接触点和连续弓速；最后在弱奏中做小幅渐强渐弱。","弱奏不是把声音拿走，而是用更精细的控制保留声音的核心。"],
-["快速短音：小而准确","Prokofiev：第一小提琴协奏曲 第二乐章 Scherzo","建议听开头约2分钟",["实际用了多少弓？","靠近弓根时，小指和手腕是否仍能调整？","快速换弦时，手肘、前臂、手腕分别做了多少？","音头清楚，但声音是否仍有弹性？"],"在两根相邻空弦各拉四个短音：先用较大的弓，再把弓量缩小一半，同时检查小指能否轻轻屈伸。","快速短音的稳定，来自小而准确的动作，不来自把右手固定住。"],
-["换把时，音乐不能停止呼吸","Brahms：D大调小提琴协奏曲 第二乐章","建议听开头约3分钟",["先闭眼：哪些换把几乎听不见？","再看左手：是手指去够，还是整只手一起移动？","到达目标音以后，音乐有没有继续向前？","哪些滑音被保留成了音乐语言？"],"选一个慢速换把：先拉准前后两个音；再让整只手缓慢移动；最后放回乐句，检查目标音之后弓是否仍向前走。","好的换把不只是在正确时间到达正确位置，还要让音乐在移动途中没有停止呼吸。"],
-["力度变化：不是只有大声和小声","Sibelius：D小调小提琴协奏曲 第一乐章","建议听独奏进入后的约3分钟",["渐强时，是不是只有音量增加？","声音变强时，接触点是否更靠近琴桥？","一句话达到顶点以后，怎样退回来而不突然泄气？"],"选一条四小节旋律，只允许自己做一次明显渐强和一次渐弱。先决定最高点，再安排弓速与弓量。","力度变化真正改变的，是音乐的方向和颜色。"],
-["作品理解：技术最后要变成语言","Bach：无伴奏小提琴奏鸣曲 No.2 BWV 1003，Andante","完整听一遍",["哪些音像句子的关键词？","复音出现时，你还能听出哪一条是主要旋律吗？","他的身体动作是否跟音乐结构有关，而不是为了表演？","回想本周：哪一种声音最像 Hadelich？"],"从自己正在练的作品选四小节，不先拉。先唱出一句，再决定重心、呼吸和结束的位置，然后拿琴演奏。","技术的目的不是让人看见技术，而是让人听懂音乐。"]
-]},
-];
-
-let w=0,d=0;
-const $=id=>document.getElementById(id);
-function render(){
- $("weeknav").innerHTML=weeks.map((x,i)=>`<button class="${i===w?'active':''}" onclick="w=${i};d=0;render()">${x.artist}</button>`).join("");
- const W=weeks[w]; $("weekLabel").textContent=`第 ${w+1} 周`; $("artist").textContent=W.artist;$("intro").textContent=W.intro;
- $("days").innerHTML=W.days.map((x,i)=>`<button class="daybtn ${i===d?'active':''}" onclick="d=${i};render()">Day ${i+1}</button>`).join("");
- const x=W.days[d]; $("daylabel").textContent=`DAY ${d+1} · 今日观察`;$("focus").textContent=x[0];$("piece").textContent=x[1];$("segment").textContent=x[2];
- $("observe").innerHTML=x[3].map(y=>`<li>${y}</li>`).join("");$("practice").innerHTML=`<p>${x[4]}</p>`;$("quote").textContent=x[5];
- $("search").href="https://www.youtube.com/results?search_query="+encodeURIComponent(W.artist+" "+x[1]);
-}
-const saved=JSON.parse(localStorage.getItem("violinProgress")||"null");
-if(saved){w=Math.min(saved.w,weeks.length-1);d=Math.min(saved.d,4);}
-render();
-function completeDay(){
-  if(d<4){d++;} else if(w<weeks.length-1){w++;d=0;}
-  localStorage.setItem("violinProgress",JSON.stringify({w,d}));
-  render(); window.scrollTo({top:0,behavior:"smooth"});
-}
-function resetProgress(){
-  w=0;d=0;localStorage.setItem("violinProgress",JSON.stringify({w,d}));render();
-}
-</script>
+<script src="app.js" defer></script>
 </body></html>
